@@ -60,6 +60,7 @@ def handler_client_connection(client_connection,client_address):
             print('Sending ...')
             final_response = header + response
             client_connection.sendall(final_response) 
+            is_connected = False
             print('**********************')
         #POST
         elif(method == constants.POST): 
@@ -72,6 +73,7 @@ def handler_client_connection(client_connection,client_address):
             response = getHeader(file_name)
             response = response.rstrip(b'\r\n\r\n')
             client_connection.sendall(response)
+            is_connected = False
             print('**********************')
         #HEAD
         elif(method== constants.HEAD):
