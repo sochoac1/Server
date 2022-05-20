@@ -32,7 +32,7 @@ def handler_client_connection(client_connection,client_address):
     is_connected = True
     while is_connected:
         #Method and file_name b"GET /cover.jpg HTTP/1.1\r\nHost: data.pr4e.org\r\n\r\n"
-        request = client_connection.recv(4098260).split(b"\r\n\r\n")
+        request = client_connection.recv(9999999).split(b"\r\n\r\n")
         message = request[0].decode().split(' ') 
         #print(message)
         method = message[0] 
@@ -63,8 +63,12 @@ def handler_client_connection(client_connection,client_address):
             is_connected = False
             print('**********************')
         #POST
-        elif(method == constants.POST): 
-            complete_file = request[1]   
+        elif(method == constants.POST):
+            
+            if (file_name.endswith('.html') or file_name.endswith('.css')):
+                complete_file = request[1] 
+            else:
+                complete_file = request [1] + client_connection.recv(9999999)  
             #Save file                               
             file=open("./Server/"+file_name, 'wb')
             file.write(complete_file)
