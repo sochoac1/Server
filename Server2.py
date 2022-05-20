@@ -89,6 +89,7 @@ def handler_client_connection(client_connection,client_address):
                 header=getHeader(file_name)
             header = header.rstrip(b'\r\n\r\n')
             client_connection.sendall(header)
+            is_connected = False
             print('**********************')
         #QUIT
         elif (method == constants.QUIT and file_name=="server"):
