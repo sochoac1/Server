@@ -64,11 +64,16 @@ def handler_client_connection(client_connection,client_address):
             print('**********************')
         #POST
         elif(method == constants.POST):
-            
-            if (file_name.endswith('.html') or file_name.endswith('.css')):
-                complete_file = request[1] 
-            else:
-                complete_file = request [1] + client_connection.recv(9999999)  
+            actual=b's'
+            res = b''
+            while(True):
+                actual = client_connection.recv(9999999)
+                if(len(actual.split(b'Separator')) > 1):
+                    res += actual.split(b'Separator')[0]
+                    break 
+                else:
+                    res += actual
+            complete_file = request[1] + res
             #Save file                               
             file=open("./Server/"+file_name, 'wb')
             file.write(complete_file)
